@@ -1,0 +1,92 @@
+<GodotContextOutput>
+
+<PreviousCommandModifyFilesStatus status="Command processing aborted because one or more operations failed validation. No file system changes were made.">
+	<ReplaceFilesStatus status="Failed">
+		<File path="res://scripts/core/game_manager.gd" status="No erros, but aborted bacause others file have errors."/>
+		<File path="res://scripts/core/main.gd" status="Current file not in previous context. Added to context now, recheck to modify!"/>
+	</ReplaceFilesStatus>
+	<CreateFilesStatus status="Validated">
+		<File path="res://scripts/ui/score_label.gd" status="No erros, but aborted bacause others file have errors."/>
+	</CreateFilesStatus>
+	<DeleteFilesStatus status="Failed">
+		<File path="res://scripts/ui/score_label.gd" status="File doesnt exist. Added to context res://scripts/ui/ file list."/>
+	</DeleteFilesStatus>
+</PreviousCommandModifyFilesStatus>
+
+<FileStructure>
+<![CDATA[
+  [-] res://
+	[ ] res://addons/
+	[-] res://audio/
+	  [x] res://audio/player_shoot.wav
+	[ ] res://export_presets.cfg
+	[x] res://icon.svg
+	[-] res://scripts/
+	  [x] res://scripts/player.gd
+	  [ ] res://scripts/enemy_spawner.gd
+	[-] res://scenes/
+	  [x] res://scenes/main.tscn
+	  [-] res://scenes/ui/hud.tscn
+	[ ] res://textures/
+]]>
+</FileStructure>
+<FileDetails>
+<File path="res://audio/player_shoot.wav" state="[x]">
+<![CDATA[
+--- (Binary file: Content not shown) ---
+]]>
+</File>
+<File path="res://icon.svg" state="[x]">
+<![CDATA[
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- SVG Content -->
+</svg>
+]]>
+</File>
+<File path="res://scripts/player.gd" state="[x]">
+<![CDATA[
+extends CharacterBody2D
+
+const MAX_SPEED = 400
+var velocity = Vector2.ZERO
+
+signal shot_fired(bullet_scene, location)
+@export var bullet_prefab: PackedScene
+
+func _physics_process(delta):
+	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	velocity = direction * MAX_SPEED
+	move_and_slide()
+
+	if Input.is_action_just_pressed("shoot"):
+		if bullet_prefab:
+			shot_fired.emit(bullet_prefab, global_position)
+
+]]>
+</File>
+<File path="res://scenes/main.tscn" state="[x]">
+<![CDATA[
+[gd_scene load_steps=3 format=3 uid="uid://main12345"]
+
+[ext_resource type="PackedScene" uid="uid://player6789" path="res://scenes/player.tscn" id="1_abc"]
+[ext_resource type="PackedScene" uid="uid://hud00000" path="res://scenes/ui/hud.tscn" id="2_def"]
+
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_abc")]
+position = Vector2(500, 300)
+
+[node name="HUD" parent="." instance=ExtResource("2_def")]
+]]>
+</File>
+<File path="res://scenes/ui/hud.tscn" state="[-]">
+<![CDATA[
+[gd_scene load_steps=2 format=3 uid="uid://hud00000"]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_ghi"]
+--- (Showing first 3 of 25 lines) ---
+]]>
+</File>
+</FileDetails>
+</GodotContextOutput>

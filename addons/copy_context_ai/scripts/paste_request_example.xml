@@ -1,0 +1,94 @@
+<GodotContextCommand>
+<ModifyFiles>
+<ReplaceFiles>
+<File path="res://scripts/player.gd">
+<![CDATA[
+# Refactored Player Script
+extends CharacterBody2D
+
+const MAX_SPEED = 400
+
+signal shot_fired(bullet_scene, location)
+@export var bullet_prefab: PackedScene
+
+func _physics_process(delta):
+	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	# Use local velocity instead of class member
+	var current_velocity = direction * MAX_SPEED
+	set_velocity(current_velocity) # Use CharacterBody2D's velocity setter
+	move_and_slide()
+
+	if Input.is_action_just_pressed("shoot"):
+		if bullet_prefab:
+			shot_fired.emit(bullet_prefab, global_position)
+]]>
+</File>
+</ReplaceFiles>
+<CreateFiles>
+<File path="res://scripts/bullet.gd">
+<![CDATA[
+extends Area2D
+
+const SPEED = 600
+var direction = Vector2.RIGHT
+
+func _physics_process(delta):
+	position += direction * SPEED * delta
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free() # Clean up bullets leaving screen
+]]>
+</File>
+<File path="res://scenes/projectiles/bullet.tscn">
+<![CDATA[
+[gd_scene load_steps=3 format=3 uid="uid://bulletnew"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_jkl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abc"]
+size = Vector2(8, 4)
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 4
+collision_mask = 2 # Example: Collide with enemies
+script = ExtResource("1_jkl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_abc")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-4, -2, 8, 4)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+]]>
+</File>
+</CreateFiles>
+<DeleteFiles>
+<Delete path="res://audio/old_unused_sound.wav"/>
+</DeleteFiles>
+<RenameFiles>
+<Rename oldPath="res://scenes/ui/hud.tscn" newPath="res://scenes/ui/game_hud.tscn"/>
+</RenameFiles>
+</ModifyFiles>
+<SetContext>
+<![CDATA[
+  [-] res://
+	[ ] res://addons/
+	[ ] res://audio/
+	  [ ] res://audio/player_shoot.wav
+	[ ] res://export_presets.cfg
+	[ ] res://icon.svg
+	[-] res://scripts/
+	  [x] res://scripts/player.gd
+	  [ ] res://scripts/enemy_spawner.gd
+	  [x] res://scripts/bullet.gd
+	[-] res://scenes/
+	  [ ] res://scenes/main.tscn
+	  [-] res://scenes/projectiles/
+		[x] res://scenes/projectiles/bullet.tscn
+	  [-] res://scenes/ui/
+		[x] res://scenes/ui/game_hud.tscn
+	[ ] res://textures/
+]]>
+</SetContext>
+</GodotContextCommand>
