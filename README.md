@@ -5,6 +5,14 @@
 [![Godot Version](https://img.shields.io/badge/Godot-4.x-blue?logo=godotengine)](https://godotengine.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) <!-- Adjust if your license is different -->
 
+It's useful for getting AI help to refactor code, generate boilerplate, create new scenes/scripts, or perform other project changes. The plugin allows you to easily provide relevant project context to an AI and execute its suggested modification commands via a simple copy-paste workflow.
+
+## How to Install this Plugin?
+
+1.  Paste the `copy_context_ai` folder into the `addons` folder in your Godot project (create an `addons` folder if you don't have one).
+2.  Go to "Project" -> "Project Settings" -> "Plugins" tab.
+3.  Find "CopyContextAI" (or similar name) in the list and set its status to "Enabled".
+
 ## Description
 
 This plugin streamlines the interaction between Godot developers and AI coding assistants (like ChatGPT, Claude, Gemini, etc.). It provides a dockable panel within the Godot editor that allows you to:
