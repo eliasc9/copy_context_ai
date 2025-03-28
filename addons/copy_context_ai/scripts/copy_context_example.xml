@@ -1,18 +1,4 @@
 <GodotContextOutput>
-
-<PreviousCommandModifyFilesStatus status="Command processing aborted because one or more operations failed validation. No file system changes were made.">
-	<ReplaceFilesStatus status="Failed">
-		<File path="res://scripts/core/game_manager.gd" status="No erros, but aborted bacause others file have errors."/>
-		<File path="res://scripts/core/main.gd" status="Current file not in previous context. Added to context now, recheck to modify!"/>
-	</ReplaceFilesStatus>
-	<CreateFilesStatus status="Validated">
-		<File path="res://scripts/ui/score_label.gd" status="No erros, but aborted bacause others file have errors."/>
-	</CreateFilesStatus>
-	<DeleteFilesStatus status="Failed">
-		<File path="res://scripts/ui/score_label.gd" status="File doesnt exist. Added to context res://scripts/ui/ file list."/>
-	</DeleteFilesStatus>
-</PreviousCommandModifyFilesStatus>
-
 <FileStructure>
 <![CDATA[
   [-] res://
