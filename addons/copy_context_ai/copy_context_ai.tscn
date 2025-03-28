@@ -43,7 +43,8 @@ layout_mode = 2
 
 [node name="IncludeSyspromptCheckbox" type="CheckBox" parent="_/_"]
 layout_mode = 2
-tooltip_text = "Include the AI system prompt (instructions for the AI) along with the project context when copying."
+tooltip_text = "Include the AI system prompt (instructions for the AI) along with the project context when copying.
+Edit this in \"copy_sysprompt_content.md\", or create files and add to the context for more custom instructions."
 button_pressed = true
 text = "Sys"
 
@@ -63,7 +64,8 @@ include_sysprompt_checkbox = NodePath("../IncludeSyspromptCheckbox")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Executes <GodotContextCommand> XML instructions pasted from the clipboard to modify project files. Review commands carefully before executing! (Ctrl+V within plugin)"
+tooltip_text = "⚠️ Can DELETE, or MODIFY files, use with GIT!
+Executes <GodotContextCommand> XML instructions pasted from the clipboard to modify project files. Review commands carefully before executing! (Ctrl+V within plugin)"
 text = "Paste request"
 icon = SubResource("ImageTexture_7ed5c")
 icon_alignment = 2
