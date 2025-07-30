@@ -82,6 +82,28 @@ func populate_tree() -> void:
 	if not Engine.is_editor_hint():
 		return
 
+	# 1. Save current states before clearing the tree
+	var previous_states: Dictionary = {}
+	if is_instance_valid(get_root()):
+		var stack: Array[TreeItem] = [get_root()]
+		while not stack.is_empty():
+			var item: TreeItem = stack.pop_back()
+			if not is_instance_valid(item):
+				continue
+
+			var meta: Dictionary = item.get_metadata(0)
+			if meta is Dictionary:
+				var state: CheckState = meta.get(META_STATE, CheckState.UNCHECKED)
+				if state != CheckState.UNCHECKED:
+					var path: String = meta.get(META_PATH, "")
+					if not path.is_empty():
+						previous_states[path] = state
+
+			var child: TreeItem = item.get_first_child()
+			while is_instance_valid(child):
+				stack.append(child)
+				child = child.get_next()
+
 	if preview_requests == null:
 		preview_requests = {}
 
@@ -110,8 +132,32 @@ func populate_tree() -> void:
 
 	_scan_dir("res://", root)
 
+	# 2. Restore the saved states to the newly created items
+	if not previous_states.is_empty():
+		for path in previous_states:
+			if path in _path_to_item_lookup:
+				var item_to_restore: TreeItem = _path_to_item_lookup[path]
+				var saved_state: CheckState = previous_states[path]
+
+				if is_instance_valid(item_to_restore):
+					var meta: Dictionary = item_to_restore.get_metadata(0)
+					if not meta is Dictionary: meta = {}
+					meta[META_STATE] = saved_state
+					item_to_restore.set_metadata(0, meta)
+					
+					match saved_state:
+						CheckState.CHECKED:
+							item_to_restore.set_checked(0, true)
+							item_to_restore.set_indeterminate(0, false)
+						CheckState.INDETERMINATE:
+							item_to_restore.set_checked(0, false)
+							item_to_restore.set_indeterminate(0, true)
+
+	# 3. Update all folder states from the bottom up to ensure consistency
+	_update_all_folder_states()
+
 	_is_handling_edit = was_handling
-	print("CopyContextAI: FileTree populated.")
+	print("CopyContextAI: FileTree populated and states restored.")
 
 
 func _scan_dir(path: String, parent_item: TreeItem) -> void:
